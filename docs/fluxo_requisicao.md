@@ -1,3 +1,7 @@
+[Visão Geral](/README.md) | [Diagrama Entidade Relacionamento](/docs/diagram_er.md) | [Diagrama De Classes](/docs/diagrama_classes.md) | [Endpoints](/docs/endpoints.md)
+
+---
+
 ### Fluxo de Requisição
 
 #### Visão Geral da Interação
