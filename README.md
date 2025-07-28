@@ -95,21 +95,21 @@ app/
 
 **5. Casos de Uso (Planejados)**
 
-UC01 - Cadastro de Cliente
-UC02 - Acúmulo de Pontos por Nota Fiscal
-UC03 - Resgate de Pontos por Produtos
-UC04 - Cadastro de Estabelecimento (Admin)
-UC05 - Gerenciamento de Produtos (Estab.)
-UC06 - Aprovação de Tickets (Funcionário)
-UC07 - Avaliar Estabelecimento/Plataforma
-UC08 - Visualização de Saldo e Extrato de Pontos
-UC09 - Login e Recuperação de Senha
-UC10 - Cadastro e Gestão de Anúncios
-UC11 - Consulta de Estabelecimentos
-UC12 - Visualizar Métricas da Plataforma (Admin)
-UC13 - Auditoria e Logs (Admin)
-UC14 - Gerenciar Funcionários
-UC15 - Gerenciar Perfil do Estabelecimento
+- UC01 - Cadastro de Cliente
+- UC02 - Acúmulo de Pontos por Nota Fiscal
+- UC03 - Resgate de Pontos por Produtos
+- UC04 - Cadastro de Estabelecimento (Admin)
+- UC05 - Gerenciamento de Produtos (Estab.)
+- UC06 - Aprovação de Tickets (Funcionário)
+- UC07 - Avaliar Estabelecimento/Plataforma
+- UC08 - Visualização de Saldo e Extrato de Pontos
+- UC09 - Login e Recuperação de Senha
+- UC10 - Cadastro e Gestão de Anúncios
+- UC11 - Consulta de Estabelecimentos
+- UC12 - Visualizar Métricas da Plataforma (Admin)
+- UC13 - Auditoria e Logs (Admin)
+- UC14 - Gerenciar Funcionários
+- UC15 - Gerenciar Perfil do Estabelecimento
 
 ```mermaid
 graph TD
