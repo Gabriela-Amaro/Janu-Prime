@@ -64,6 +64,8 @@
 
 * Acesso a registros de atividades **administrativas** e **operacionais** do estabelecimento.
 
+#### Demais funcionalidades comum aos funcionários
+
 ---
 
 ### RF3. Funcionários das empresas parceiras
@@ -155,7 +157,7 @@
 
 ### RNF2. Desempenho
 
-* Tempo de resposta máximo de **2 segundos** para ações críticas (login, consulta de saldo, resgate).
+* Tempo de resposta máximo de **2 segundos** para ações críticas (login, pontuação, resgate).
 
 ### RNF3. Segurança
 
