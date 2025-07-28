@@ -1,3 +1,7 @@
+[Visão Geral](/README.md) | [Diagrama Entidade Relacionamento](/docs/diagram_er.md) | [Fluxo de Requisições](/docs/fluxo_requisicao.md) | [Endpoints](/docs/endpoints.md)
+
+---
+
 ### Diagrama de Classes (Planejado)
 
 ```mermaid
