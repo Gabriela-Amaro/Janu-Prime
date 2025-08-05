@@ -1,0 +1,14 @@
+# --- Frameworks ---
+django
+djangorestframework
+djangorestframework-simplejwt
+
+# --- Conector do Banco de Dados ---
+psycopg2-binary
+
+# --- Servidor de Aplicação ---
+gunicorn
+
+# --- Utilitários ---
+python-dotenv
+django-cors-headers
