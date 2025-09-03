@@ -56,11 +56,7 @@
   * Produtos/serviços mais resgatados.
   * Avaliações dos clientes.
 
-#### RF2.4. Histórico de transações
-
-* Consulta de todas as operações de crédito e débito de pontos realizadas por clientes.
-
-#### RF2.5. Auditoria e logs
+#### RF2.4. Auditoria e logs
 
 * Acesso a registros de atividades **administrativas** e **operacionais** do estabelecimento.
 
@@ -89,6 +85,10 @@
 #### RF3.5. Visualizar feedbacks
 
 * Acesso às avaliações feitas pelos clientes sobre produtos/serviços e atendimento.
+
+#### RF3.5. Histórico de transações
+
+* Consulta de todas as operações de crédito e débito de pontos realizadas por clientes.
 
 ---
 
@@ -184,6 +184,3 @@
 
 * Código e arquitetura seguindo padrões que facilitem manutenção e evolução futura.
 
----
-
-*Documento gerado em Markdown para integração na documentação técnica.*
