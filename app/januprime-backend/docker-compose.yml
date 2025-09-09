@@ -8,6 +8,8 @@ services:
       - ./.env
     ports:
       - "5432:5432"
+    networks:
+      - app
 
   # Serviço da Aplicação Django
   app:
@@ -22,6 +24,11 @@ services:
     depends_on:
       - db
     user: "${UID}:${GID}" 
+    networks:
+      - app
 
 volumes:
   postgres_data:
+
+networks:
+  app:

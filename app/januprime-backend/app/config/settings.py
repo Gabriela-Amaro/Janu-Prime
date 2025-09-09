@@ -41,7 +41,10 @@ INSTALLED_APPS = [
     'transacoes',
     'avaliacoes',
     'anuncios',
+    'logs',
 ]
+
+AUTH_USER_MODEL = 'usuarios.Usuario'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
