@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meu App Frontend</title>
+  </head>
+  <body> 
+    <nav class="navbar bg-body-tertiary ">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="/public/assets/images/vite.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">  
+          Janu Prime
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Nome da Empresa</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Perfil da Empresa</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Catálogo</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Anúncios</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Transaçoes</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Administração
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Gerenciar Funcionarios</a></li>
+                  <li><a class="dropdown-item" href="#">Métricas da Empresa</a></li>
+                  <li><a class="dropdown-item" href="#">Registros de Auditoria</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container mt-5">
+      <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+        <div class="container-fluid ">
+          <div class="container text-center">
+            <div class="row">
+              <form class="d-flex col-6" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+              <div class="dropdown col-6">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Dropdown button
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="row center" id="tickets-home-container">
+              <div class="col-4" style="margin-top: 2rem; margin-bottom: 2rem;">
+                <div class="card" style="width: 100%;">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>          
+        </div>
+      </div>
+      
+    </main>
+
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>
