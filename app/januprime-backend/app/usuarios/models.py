@@ -58,7 +58,6 @@ class Administrador(models.Model):
     # estabelecimento = models.ForeignKey(Estabelecimento, on_delete=models.PROTECT)
     nome = models.CharField(max_length=255)
     cpf = models.CharField(max_length=14)
-    ativo = models.BooleanField(default=True)
     super_user = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
