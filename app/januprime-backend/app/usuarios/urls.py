@@ -1,7 +1,8 @@
 from django.urls import path
-# from .views import ClienteCadastroView
+from .views import ClienteCadastroView, AdministradorRegisterView
 
 urlpatterns = [
-    # Define a rota /cadastro/ que aponta para a nossa view.
-    # path('clientes/cadastro/', ClienteCadastroView.as_view(), name='cliente-cadastro'),
+    path('clientes/cadastro/', ClienteCadastroView.as_view(), name='cliente-cadastro'),
+
+    path('administradores/cadastro/', AdministradorRegisterView.as_view(), name='administrador-cadastro'),
 ]

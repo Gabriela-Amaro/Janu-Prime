@@ -1,11 +1,39 @@
-from rest_framework import generics, permissions
-from .models import Cliente
-from .serializers import ClienteCadastroSerializer
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
+from .models import Cliente, Administrador
+from .serializers import ClienteRegistrationSerializer, ClienteSerializer, AdministradorRegistrationSerializer, AdministradorSerializer
+from .permissions import CanRegisterAdministrador 
+
 
 class ClienteCadastroView(generics.CreateAPIView):
-    """
-    View para o endpoint de cadastro de novos clientes.
-    """
     queryset = Cliente.objects.all()
-    serializer_class = ClienteCadastroSerializer
-    permission_classes = [permissions.AllowAny] # Permite que qualquer um se cadastre.
+    serializer_class = ClienteRegistrationSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        reg_serializer = self.get_serializer(data=request.data)
+        reg_serializer.is_valid(raise_exception=True)
+        cliente_instance = reg_serializer.save()
+
+        display_serializer = ClienteSerializer(cliente_instance, context=self.get_serializer_context())
+        
+        headers = self.get_success_headers(display_serializer.data)
+        
+        return Response(display_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class AdministradorRegisterView(generics.CreateAPIView):
+    queryset = Administrador.objects.all()
+    serializer_class = AdministradorRegistrationSerializer
+    permission_classes = [CanRegisterAdministrador]
+
+    def create(self, request, *args, **kwargs):
+        reg_serializer = self.get_serializer(data=request.data)
+        reg_serializer.is_valid(raise_exception=True)
+        admin_instance = reg_serializer.save()
+
+        display_serializer = AdministradorSerializer(admin_instance, context=self.get_serializer_context())
+        
+        headers = self.get_success_headers(display_serializer.data)
+        
+        return Response(display_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
