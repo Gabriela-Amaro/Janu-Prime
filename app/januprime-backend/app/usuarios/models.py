@@ -44,6 +44,7 @@ class Cliente(models.Model):
     cpf = models.CharField(max_length=14, unique=True)
     telefone = models.CharField(max_length=20, unique=True)
     pontos = models.IntegerField(default=0)
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -52,10 +53,11 @@ class Cliente(models.Model):
 
 class Administrador(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, primary_key=True)
-    # estabelecimento = models.ForeignKey(Estabelecimento, on_delete=models.PROTECT)
+    estabelecimento = models.ForeignKey('estabelecimentos.Estabelecimento', on_delete=models.CASCADE)
     nome = models.CharField(max_length=255)
     cpf = models.CharField(max_length=14, unique=True)
     super_user = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

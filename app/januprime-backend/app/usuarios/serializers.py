@@ -1,9 +1,8 @@
-# core/serializers.py
-
 from rest_framework import serializers
 from django.db import transaction  
 
 from .models import Usuario, Cliente, Administrador 
+from estabelecimentos.models import Estabelecimento
 
 # ===================================================================
 # SERIALIZERS PARA EXIBIÇÃO DE DADOS (GET requests)
@@ -20,17 +19,16 @@ class ClienteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cliente
-        fields = ['usuario', 'nome', 'cpf', 'telefone', 'pontos', 'created_at']
+        fields = ['usuario', 'nome', 'cpf', 'telefone', 'pontos', 'created_at', 'updated_at']
 
 
 class AdministradorSerializer(serializers.ModelSerializer):
     usuario = UsuarioSerializer(read_only=True)
-    # Mostra o nome do estabelecimento em vez de apenas o seu ID
-    # estabelecimento = serializers.StringRelatedField() 
+    estabelecimento = serializers.StringRelatedField() 
 
     class Meta:
         model = Administrador
-        fields = ['usuario', 'nome', 'cpf', 'super_user'] # 'estabelecimento' removido temporariamente
+        fields = ['usuario', 'nome', 'cpf', 'estabelecimento', 'super_user', 'created_at', 'updated_at'] 
 
 
 # ===================================================================
@@ -45,6 +43,7 @@ class ClienteRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cliente
         fields = ['email', 'password', 'password2', 'nome', 'cpf', 'telefone']
+        read_only_fields = ['created_at', 'updated_at', 'is_staff'] 
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
@@ -79,14 +78,22 @@ class AdministradorRegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
     password2 = serializers.CharField(write_only=True, required=True, label='Confirme a senha', style={'input_type': 'password'})
-    # estabelecimento = serializers.PrimaryKeyRelatedField(queryset=Estabelecimento.objects.all())
-
+    estabelecimento = serializers.PrimaryKeyRelatedField(queryset=Estabelecimento.objects.all())
 
     class Meta:
         model = Administrador
-        fields = ['email', 'password', 'password2', 'nome', 'cpf', 'super_user'] # 'estabelecimento' removido temporariamente
-        # fields = ['email', 'password', 'password2', 'nome', 'cpf', 'estabelecimento', 'super_user'] --- IGNORE ---
-        
+        fields = ['email', 'password', 'password2', 'nome', 'cpf', 'estabelecimento', 'super_user']
+        read_only_fields = ['created_at', 'updated_at', 'is_staff'] 
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        requesting_user = self.context['request'].user
+
+        if not requesting_user.is_superuser:
+            self.fields['estabelecimento'].read_only = True
+            self.fields['super_user'].read_only = True
+
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "As senhas não coincidem."})
@@ -103,6 +110,17 @@ class AdministradorRegistrationSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
+        requesting_user = self.context['request'].user
+
+        if not requesting_user.is_superuser:
+            try:
+                validated_data['estabelecimento'] = requesting_user.administrador.estabelecimento
+            except Administrador.DoesNotExist:
+                 raise serializers.ValidationError(
+                    "O seu usuário administrador não está associado a um estabelecimento."
+                )
+            validated_data['super_user'] = False
+
         email = validated_data.pop('email')
         password = validated_data.pop('password')
         validated_data.pop('password2')
