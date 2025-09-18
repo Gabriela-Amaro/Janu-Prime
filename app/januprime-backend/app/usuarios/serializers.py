@@ -1,17 +1,18 @@
 from rest_framework import serializers
-from django.db import transaction  
+from django.db import transaction
 
-from .models import Usuario, Cliente, Administrador 
+from .models import Usuario, Cliente, Administrador
 from estabelecimentos.models import Estabelecimento
 
 # ===================================================================
 # SERIALIZERS PARA EXIBIÇÃO DE DADOS (GET requests)
 # ===================================================================
 
+
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ['email', 'tipo_usuario']
+        fields = ["email", "tipo_usuario"]
 
 
 class ClienteSerializer(serializers.ModelSerializer):
@@ -19,41 +20,65 @@ class ClienteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cliente
-        fields = ['usuario', 'nome', 'cpf', 'telefone', 'pontos', 'created_at', 'updated_at']
+        fields = [
+            "usuario",
+            "nome",
+            "cpf",
+            "telefone",
+            "pontos",
+            "created_at",
+            "updated_at",
+        ]
 
 
 class AdministradorSerializer(serializers.ModelSerializer):
     usuario = UsuarioSerializer(read_only=True)
-    estabelecimento = serializers.StringRelatedField() 
+    estabelecimento = serializers.StringRelatedField()
 
     class Meta:
         model = Administrador
-        fields = ['usuario', 'nome', 'cpf', 'estabelecimento', 'super_user', 'created_at', 'updated_at'] 
+        fields = [
+            "usuario",
+            "nome",
+            "cpf",
+            "estabelecimento",
+            "super_user",
+            "created_at",
+            "updated_at",
+        ]
 
 
 # ===================================================================
 # SERIALIZERS PARA CADASTRO (POST requests)
 # ===================================================================
 
+
 class ClienteRegistrationSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(label='Email')
-    password = serializers.CharField(write_only=True, required=True, label='Senha', style={'input_type': 'password'})
-    password2 = serializers.CharField(write_only=True, required=True, label='Confirme a senha', style={'input_type': 'password'})
+    email = serializers.EmailField(label="Email")
+    password = serializers.CharField(
+        write_only=True, required=True, label="Senha", style={"input_type": "password"}
+    )
+    password2 = serializers.CharField(
+        write_only=True,
+        required=True,
+        label="Confirme a senha",
+        style={"input_type": "password"},
+    )
 
     class Meta:
         model = Cliente
-        fields = ['email', 'password', 'password2', 'nome', 'cpf', 'telefone']
-        read_only_fields = ['created_at', 'updated_at', 'is_staff'] 
+        fields = ["email", "password", "password2", "nome", "cpf", "telefone"]
+        read_only_fields = ["created_at", "updated_at", "is_staff"]
 
     def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
+        if attrs["password"] != attrs["password2"]:
             raise serializers.ValidationError({"password": "As senhas não coincidem."})
         return attrs
 
     def create(self, validated_data):
-        email = validated_data.pop('email')
-        password = validated_data.pop('password')
-        validated_data.pop('password2') 
+        email = validated_data.pop("email")
+        password = validated_data.pop("password")
+        validated_data.pop("password2")
 
         try:
             with transaction.atomic():
@@ -61,46 +86,62 @@ class ClienteRegistrationSerializer(serializers.ModelSerializer):
                 usuario = Usuario.objects.create_user(
                     email=email,
                     password=password,
-                    tipo_usuario=Usuario.TipoUsuario.CLIENTE
+                    tipo_usuario=Usuario.TipoUsuario.CLIENTE,
                 )
                 # Cria o perfil do Cliente
-                cliente = Cliente.objects.create(
-                    usuario=usuario,
-                    **validated_data
-                )
+                cliente = Cliente.objects.create(usuario=usuario, **validated_data)
         except Exception as e:
-            raise serializers.ValidationError(f"Ocorreu um erro durante o registro: {e}")
-            
+            raise serializers.ValidationError(
+                f"Ocorreu um erro durante o registro: {e}"
+            )
+
         return cliente
 
 
 class AdministradorRegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
-    password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
-    password2 = serializers.CharField(write_only=True, required=True, label='Confirme a senha', style={'input_type': 'password'})
-    estabelecimento = serializers.PrimaryKeyRelatedField(queryset=Estabelecimento.objects.all())
+    password = serializers.CharField(
+        write_only=True, required=True, style={"input_type": "password"}
+    )
+    password2 = serializers.CharField(
+        write_only=True,
+        required=True,
+        label="Confirme a senha",
+        style={"input_type": "password"},
+    )
+    estabelecimento = serializers.PrimaryKeyRelatedField(
+        queryset=Estabelecimento.objects.all()
+    )
 
     class Meta:
         model = Administrador
-        fields = ['email', 'password', 'password2', 'nome', 'cpf', 'estabelecimento', 'super_user']
-        read_only_fields = ['created_at', 'updated_at', 'is_staff'] 
+        fields = [
+            "email",
+            "password",
+            "password2",
+            "nome",
+            "cpf",
+            "estabelecimento",
+            "super_user",
+        ]
+        read_only_fields = ["created_at", "updated_at", "is_staff"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        requesting_user = self.context['request'].user
+        requesting_user = self.context["request"].user
 
         if not requesting_user.is_superuser:
-            self.fields['estabelecimento'].read_only = True
-            self.fields['super_user'].read_only = True
+            self.fields["estabelecimento"].read_only = True
+            self.fields["super_user"].read_only = True
 
     def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
+        if attrs["password"] != attrs["password2"]:
             raise serializers.ValidationError({"password": "As senhas não coincidem."})
-        
-        requesting_user = self.context['request'].user
-        
-        is_creating_superuser = attrs.get('super_user', False)
+
+        requesting_user = self.context["request"].user
+
+        is_creating_superuser = attrs.get("super_user", False)
 
         if is_creating_superuser and not requesting_user.is_superuser:
             raise serializers.ValidationError(
@@ -110,20 +151,22 @@ class AdministradorRegistrationSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        requesting_user = self.context['request'].user
+        requesting_user = self.context["request"].user
 
         if not requesting_user.is_superuser:
             try:
-                validated_data['estabelecimento'] = requesting_user.administrador.estabelecimento
+                validated_data["estabelecimento"] = (
+                    requesting_user.administrador.estabelecimento
+                )
             except Administrador.DoesNotExist:
-                 raise serializers.ValidationError(
+                raise serializers.ValidationError(
                     "O seu usuário administrador não está associado a um estabelecimento."
                 )
-            validated_data['super_user'] = False
+            validated_data["super_user"] = False
 
-        email = validated_data.pop('email')
-        password = validated_data.pop('password')
-        validated_data.pop('password2')
+        email = validated_data.pop("email")
+        password = validated_data.pop("password")
+        validated_data.pop("password2")
 
         try:
             with transaction.atomic():
@@ -131,14 +174,15 @@ class AdministradorRegistrationSerializer(serializers.ModelSerializer):
                 usuario = Usuario.objects.create_user(
                     email=email,
                     password=password,
-                    tipo_usuario=Usuario.TipoUsuario.ADMINISTRADOR
+                    tipo_usuario=Usuario.TipoUsuario.ADMINISTRADOR,
                 )
                 # Cria o perfil do Administrador
                 administrador = Administrador.objects.create(
-                    usuario=usuario,
-                    **validated_data
+                    usuario=usuario, **validated_data
                 )
         except Exception as e:
-            raise serializers.ValidationError(f"Ocorreu um erro durante o registro: {e}")
+            raise serializers.ValidationError(
+                f"Ocorreu um erro durante o registro: {e}"
+            )
 
         return administrador

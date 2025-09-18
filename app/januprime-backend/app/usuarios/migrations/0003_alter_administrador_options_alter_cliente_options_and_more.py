@@ -6,20 +6,23 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('usuarios', '0002_usuario_is_staff'),
+        ("usuarios", "0002_usuario_is_staff"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='administrador',
-            options={'verbose_name': 'Administrador', 'verbose_name_plural': 'Administradores'},
+            name="administrador",
+            options={
+                "verbose_name": "Administrador",
+                "verbose_name_plural": "Administradores",
+            },
         ),
         migrations.AlterModelOptions(
-            name='cliente',
-            options={'verbose_name': 'Cliente', 'verbose_name_plural': 'Clientes'},
+            name="cliente",
+            options={"verbose_name": "Cliente", "verbose_name_plural": "Clientes"},
         ),
         migrations.AlterModelOptions(
-            name='usuario',
-            options={'verbose_name': 'Usuário', 'verbose_name_plural': 'Usuários'},
+            name="usuario",
+            options={"verbose_name": "Usuário", "verbose_name_plural": "Usuários"},
         ),
     ]

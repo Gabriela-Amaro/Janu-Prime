@@ -1,12 +1,17 @@
 # core/models.py
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 from django.db import models
+
 
 # --- GERENCIADOR DO USUÁRIO CENTRAL ---
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
-            raise ValueError('O usuário deve ter um endereço de e-mail')
+            raise ValueError("O usuário deve ter um endereço de e-mail")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -20,11 +25,12 @@ class UsuarioManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
 # --- MODELO DE USUÁRIO CENTRAL PARA AUTENTICAÇÃO.---
 class Usuario(AbstractBaseUser, PermissionsMixin):
     class TipoUsuario(models.TextChoices):
-        CLIENTE = 'CLIENTE', 'Cliente'
-        ADMINISTRADOR = 'ADMINISTRADOR', 'Administrador'
+        CLIENTE = "CLIENTE", "Cliente"
+        ADMINISTRADOR = "ADMINISTRADOR", "Administrador"
 
     email = models.EmailField(unique=True)
     tipo_usuario = models.CharField(max_length=20, choices=TipoUsuario.choices)
@@ -33,14 +39,15 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     objects = UsuarioManager()
 
-    USERNAME_FIELD = 'email' 
+    USERNAME_FIELD = "email"
 
     class Meta:
-        verbose_name = 'Usuário'
-        verbose_name_plural = 'Usuários'
+        verbose_name = "Usuário"
+        verbose_name_plural = "Usuários"
 
     def __str__(self):
         return self.email
+
 
 class Cliente(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, primary_key=True)
@@ -48,20 +55,23 @@ class Cliente(models.Model):
     cpf = models.CharField(max_length=14, unique=True)
     telefone = models.CharField(max_length=20, unique=True)
     pontos = models.IntegerField(default=0)
-    
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'Cliente'
-        verbose_name_plural = 'Clientes'
+        verbose_name = "Cliente"
+        verbose_name_plural = "Clientes"
 
     def __str__(self):
         return self.nome
 
+
 class Administrador(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, primary_key=True)
-    estabelecimento = models.ForeignKey('estabelecimentos.Estabelecimento', on_delete=models.CASCADE)
+    estabelecimento = models.ForeignKey(
+        "estabelecimentos.Estabelecimento", on_delete=models.CASCADE
+    )
     nome = models.CharField(max_length=255)
     cpf = models.CharField(max_length=14, unique=True)
     super_user = models.BooleanField(default=False)
@@ -70,8 +80,8 @@ class Administrador(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'Administrador'
-        verbose_name_plural = 'Administradores'
-        
+        verbose_name = "Administrador"
+        verbose_name_plural = "Administradores"
+
     def __str__(self):
         return self.nome
