@@ -15,8 +15,14 @@ exec:
 root: 
 	docker compose exec -u 0 app
 
-shell:
-	$(APP) shell
+bash:
+	$(APP) bash
 
 fmt:
 	$(APP) black . 
+
+logs:
+	docker compose logs app
+
+test:
+	$(APP) python manage.py test
