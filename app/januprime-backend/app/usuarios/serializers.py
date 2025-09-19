@@ -4,11 +4,6 @@ from django.db import transaction
 from .models import Usuario, Cliente, Administrador
 from estabelecimentos.models import Estabelecimento
 
-# ===================================================================
-# SERIALIZERS PARA EXIBIÇÃO DE DADOS (GET requests)
-# ===================================================================
-
-
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
@@ -47,12 +42,6 @@ class AdministradorSerializer(serializers.ModelSerializer):
             "updated_at",
         ]
 
-
-# ===================================================================
-# SERIALIZERS PARA CADASTRO (POST requests)
-# ===================================================================
-
-
 class ClienteRegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(label="Email")
     password = serializers.CharField(
@@ -82,13 +71,11 @@ class ClienteRegistrationSerializer(serializers.ModelSerializer):
 
         try:
             with transaction.atomic():
-                # Cria o usuário
                 usuario = Usuario.objects.create_user(
                     email=email,
                     password=password,
                     tipo_usuario=Usuario.TipoUsuario.CLIENTE,
                 )
-                # Cria o perfil do Cliente
                 cliente = Cliente.objects.create(usuario=usuario, **validated_data)
         except Exception as e:
             raise serializers.ValidationError(
@@ -170,13 +157,11 @@ class AdministradorRegistrationSerializer(serializers.ModelSerializer):
 
         try:
             with transaction.atomic():
-                # Cria o usuário
                 usuario = Usuario.objects.create_user(
                     email=email,
                     password=password,
                     tipo_usuario=Usuario.TipoUsuario.ADMINISTRADOR,
                 )
-                # Cria o perfil do Administrador
                 administrador = Administrador.objects.create(
                     usuario=usuario, **validated_data
                 )
