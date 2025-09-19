@@ -30,6 +30,10 @@ class ClienteRegistrationSerializerTest(TestCase):
     serializer = ClienteRegistrationSerializer(data=data)
 
     self.assertTrue(serializer.is_valid())
+    self.assertEqual(serializer.validated_data["email"], data["email"])
+    self.assertEqual(serializer.validated_data["nome"], data["nome"])
+    self.assertEqual(serializer.validated_data["cpf"], data["cpf"])
+    self.assertEqual(serializer.validated_data["telefone"], data["telefone"])
 
   def test_cliente_registration_serializer_invalid_data(self):
     data = {
