@@ -4,6 +4,7 @@ from django.db import transaction
 from .models import Usuario, Cliente, Administrador
 from estabelecimentos.models import Estabelecimento
 
+
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
@@ -41,6 +42,7 @@ class AdministradorSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
 
 class ClienteRegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(label="Email")
