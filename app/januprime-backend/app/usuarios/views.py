@@ -6,9 +6,13 @@ from .serializers import (
     ClienteSerializer,
     AdministradorRegistrationSerializer,
     AdministradorSerializer,
+    ChangePasswordSerializer,
 )
-from .permissions import CanRegisterAdministrador
-
+from .permissions import (
+    CanRegisterAdministrador, 
+    IsClienteOwner, 
+    IsAdministradorOwnerOrSameEstablishmentSuperUser
+)
 
 class ClienteCadastroView(generics.CreateAPIView):
     queryset = Cliente.objects.all()
@@ -50,3 +54,40 @@ class AdministradorCadastroView(generics.CreateAPIView):
         return Response(
             display_serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
+
+
+
+class ClienteDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Cliente.objects.all()
+    serializer_class = ClienteSerializer
+    permission_classes = [permissions.IsAuthenticated, IsClienteOwner]
+
+    def perform_destroy(self, instance):
+        instance.usuario.delete()
+
+
+class AdministradorDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Administrador.objects.all()
+    serializer_class = AdministradorSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAdministradorOwnerOrSameEstablishmentSuperUser]
+
+    def perform_destroy(self, instance):
+        instance.usuario.delete()
+    
+
+class ChangePasswordView(generics.UpdateAPIView):
+    serializer_class = ChangePasswordSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({"detail": "Senha alterada com sucesso."}, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
