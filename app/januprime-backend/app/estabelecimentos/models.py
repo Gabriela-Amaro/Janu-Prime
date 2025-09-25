@@ -5,8 +5,8 @@ from django.db import models
 
 class Estabelecimento(models.Model):
     nome = models.CharField(max_length=255)
-    endereco = models.CharField(max_length=255, blank=True, unique=True)
-    telefone = models.CharField(max_length=15, blank=True, unique=True)
+    endereco = models.CharField(max_length=255, blank=True)
+    telefone = models.CharField(max_length=15, blank=True)
     descricao = models.TextField(blank=True)
     logotipo = models.ImageField(
         upload_to="logotipos/", blank=True
@@ -24,3 +24,5 @@ class Estabelecimento(models.Model):
 
     def __str__(self):
         return self.nome
+
+# Fazer validations para CNPJ, telefone e horário de funcionamento 
