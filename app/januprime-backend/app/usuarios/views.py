@@ -9,10 +9,11 @@ from .serializers import (
     ChangePasswordSerializer,
 )
 from .permissions import (
-    CanRegisterAdministrador, 
-    IsClienteOwner, 
-    IsAdministradorOwnerOrSameEstablishmentSuperUser
+    CanRegisterAdministrador,
+    IsClienteOwner,
+    IsAdministradorOwnerOrSameEstablishmentSuperUser,
 )
+
 
 class ClienteCadastroView(generics.CreateAPIView):
     queryset = Cliente.objects.all()
@@ -56,7 +57,6 @@ class AdministradorCadastroView(generics.CreateAPIView):
         )
 
 
-
 class ClienteDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Cliente.objects.all()
     serializer_class = ClienteSerializer
@@ -69,11 +69,14 @@ class ClienteDetailView(generics.RetrieveUpdateDestroyAPIView):
 class AdministradorDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Administrador.objects.all()
     serializer_class = AdministradorSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAdministradorOwnerOrSameEstablishmentSuperUser]
+    permission_classes = [
+        permissions.IsAuthenticated,
+        IsAdministradorOwnerOrSameEstablishmentSuperUser,
+    ]
 
     def perform_destroy(self, instance):
         instance.usuario.delete()
-    
+
 
 class ChangePasswordView(generics.UpdateAPIView):
     serializer_class = ChangePasswordSerializer
@@ -88,6 +91,8 @@ class ChangePasswordView(generics.UpdateAPIView):
 
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response({"detail": "Senha alterada com sucesso."}, status=status.HTTP_200_OK)
+            return Response(
+                {"detail": "Senha alterada com sucesso."}, status=status.HTTP_200_OK
+            )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -25,4 +25,5 @@ class Estabelecimento(models.Model):
     def __str__(self):
         return self.nome
 
-# Fazer validations para CNPJ, telefone e horário de funcionamento 
+
+# Fazer validations para CNPJ, telefone e horário de funcionamento

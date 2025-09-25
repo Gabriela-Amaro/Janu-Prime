@@ -55,10 +55,10 @@ class CanRegisterAdministrador(BasePermission):
 class IsClienteOwner(BasePermission):
     message = "Você não tem permissão para acessar os dados deste cliente."
 
-
     def has_object_permission(self, request, view, obj):
-        is_cliente_and_owner = IsCliente().has_permission(request, view) and \
-            obj.usuario == request.user
+        is_cliente_and_owner = (
+            IsCliente().has_permission(request, view) and obj.usuario == request.user
+        )
 
         return is_cliente_and_owner or request.user.is_superuser
 
@@ -67,16 +67,24 @@ class IsAdministradorOwnerOrSameEstablishmentSuperUser(BasePermission):
     message = "Você não tem permissão para acessar os dados deste funcionário."
 
     def has_object_permission(self, request, view, obj):
-        is_admin_and_owner = IsAdministrador().has_permission(request, view) and \
-            obj.usuario == request.user
+        is_admin_and_owner = (
+            IsAdministrador().has_permission(request, view)
+            and obj.usuario == request.user
+        )
 
         is_platform_superuser = request.user.is_superuser
 
         is_same_establishment_superuser = False
 
-        if (hasattr(request.user, 'administrador') and 
-            request.user.administrador.super_user):
+        if (
+            hasattr(request.user, "administrador")
+            and request.user.administrador.super_user
+        ):
             if request.user.administrador.estabelecimento == obj.estabelecimento:
                 is_same_establishment_superuser = True
 
-        return is_admin_and_owner or is_platform_superuser or is_same_establishment_superuser
+        return (
+            is_admin_and_owner
+            or is_platform_superuser
+            or is_same_establishment_superuser
+        )

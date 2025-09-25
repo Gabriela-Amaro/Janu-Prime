@@ -103,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
         "OPTIONS": {
             "min_length": 8,
-        }
+        },
     },
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
@@ -154,7 +154,7 @@ SIMPLE_JWT = {
     # === PARA DESENVOLVIMENTO (facilitar testes) ===
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     # "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5), # Padrão
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),  
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
 }
