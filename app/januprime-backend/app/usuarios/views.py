@@ -31,7 +31,7 @@ class ClienteCadastroView(generics.CreateAPIView):
         )
 
 
-class AdministradorRegisterView(generics.CreateAPIView):
+class AdministradorCadastroView(generics.CreateAPIView):
     queryset = Administrador.objects.all()
     serializer_class = AdministradorRegistrationSerializer
     permission_classes = [CanRegisterAdministrador]
