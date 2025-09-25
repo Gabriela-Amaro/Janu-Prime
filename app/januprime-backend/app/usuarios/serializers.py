@@ -90,7 +90,7 @@ class ClienteRegistrationSerializer(serializers.ModelSerializer):
 class AdministradorRegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
     password = serializers.CharField(
-        write_only=True, required=True, style={"input_type": "password"}
+        write_only=True, required=True, label="Senha", style={"input_type": "password"}
     )
     password2 = serializers.CharField(
         write_only=True,

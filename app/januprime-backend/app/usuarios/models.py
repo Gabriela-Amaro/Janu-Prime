@@ -7,7 +7,6 @@ from django.contrib.auth.models import (
 from django.db import models
 
 
-# --- GERENCIADOR DO USUÁRIO CENTRAL ---
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -26,7 +25,6 @@ class UsuarioManager(BaseUserManager):
         return user
 
 
-# --- MODELO DE USUÁRIO CENTRAL PARA AUTENTICAÇÃO.---
 class Usuario(AbstractBaseUser, PermissionsMixin):
     class TipoUsuario(models.TextChoices):
         CLIENTE = "CLIENTE", "Cliente"
