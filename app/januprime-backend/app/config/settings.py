@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     # Third-Party Apps
     "rest_framework",
     "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
     # My Apps
     "core",
@@ -44,15 +45,6 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = "usuarios.Usuario"
-
-SIMPLE_JWT = {
-    # "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5), # Padrão
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),  # Padrão
-    # === PARA DESENVOLVIMENTO (facilitar testes) ===
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
-    "ROTATE_REFRESH_TOKENS": True,
-    "BLACKLIST_AFTER_ROTATION": True,
-}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -109,6 +101,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 8,
+        }
     },
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
@@ -142,9 +137,10 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # --- REST FRAMEWORK, JWT & CORS CONFIGURATIONS ---
-
-# Para desenvolvimento, permitimos todas as origens. Em produção, devemos restringir.
-CORS_ALLOW_ALL_ORIGINS = True  # mudar_producao
+CORS_ALLOWED_ORIGINS = [
+    # "https://example.com",  # Domínios permitidos
+    "http://localhost:8000",  # Para desenvolvimento
+]
 
 # Configurações do Django Rest Framework
 REST_FRAMEWORK = {
@@ -152,4 +148,13 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+}
+
+SIMPLE_JWT = {
+    # === PARA DESENVOLVIMENTO (facilitar testes) ===
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    # "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5), # Padrão
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),  
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
 }
