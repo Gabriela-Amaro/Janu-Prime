@@ -41,3 +41,7 @@ click==8.2.1
 mypy_extensions==1.1.0
 pathspec==0.12.1
 platformdirs==4.4.0
+
+django-localflavor==5.0
+phonenumbers==9.0.14
+django-phonenumber-field==8.1.0

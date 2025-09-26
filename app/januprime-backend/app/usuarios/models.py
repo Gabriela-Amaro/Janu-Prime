@@ -5,6 +5,8 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.db import models
+from localflavor.br.models import BRCPFField
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class UsuarioManager(BaseUserManager):
@@ -59,8 +61,8 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 class Cliente(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, primary_key=True)
     nome = models.CharField(max_length=255)
-    cpf = models.CharField(max_length=14, unique=True)
-    telefone = models.CharField(max_length=20, unique=True)
+    cpf = BRCPFField(unique=True)
+    telefone = PhoneNumberField(region="BR", unique=True)
     pontos = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -80,7 +82,7 @@ class Administrador(models.Model):
         "estabelecimentos.Estabelecimento", on_delete=models.CASCADE
     )
     nome = models.CharField(max_length=255)
-    cpf = models.CharField(max_length=14, unique=True)
+    cpf = BRCPFField(unique=True)
     super_user = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)

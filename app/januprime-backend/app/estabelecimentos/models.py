@@ -1,19 +1,18 @@
 from django.db import models
 
-from django.db import models
+from localflavor.br.models import BRCNPJField
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Estabelecimento(models.Model):
     nome = models.CharField(max_length=255)
     endereco = models.CharField(max_length=255, blank=True)
-    telefone = models.CharField(max_length=15, blank=True)
+    telefone = PhoneNumberField(region="BR", blank=True)
     descricao = models.TextField(blank=True)
     logotipo = models.ImageField(
         upload_to="logotipos/", blank=True
     )  # configurar o upload de imagens depois
-    cnpj = models.CharField(
-        max_length=18, unique=True, help_text="Formato: 12.345.678/0001-99"
-    )
+    cnpj = BRCNPJField(unique=True, help_text="Formato: 12.345.678/0001-99")
     horario_funcionamento = models.JSONField(
         default=dict, blank=True
     )  # Exemplo: {"segunda": "08:00-18:00", "terça": "08:00-18:00", ...}
