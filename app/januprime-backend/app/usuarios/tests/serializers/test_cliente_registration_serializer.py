@@ -14,7 +14,7 @@ class ClienteRegistrationSerializerTest(TestCase):
             usuario_id=self.usuario.id,
             nome="Existing User",
             cpf="915.377.136-20",
-            telefone="(99) 99999-9999",
+            telefone="+553436751022",
         )
 
     def test_cliente_registration_serializer_valid_data(self):
@@ -24,7 +24,7 @@ class ClienteRegistrationSerializerTest(TestCase):
             "password2": "@Password123",
             "nome": "Test User",
             "cpf": "085.981.021-64",
-            "telefone": "(11) 11111-1111",
+            "telefone": "+553837515855",
         }
 
         serializer = ClienteRegistrationSerializer(data=data)
@@ -40,7 +40,7 @@ class ClienteRegistrationSerializerTest(TestCase):
             "email": "",
             "password": "@Password123",
             "cpf": "915.377.136-20",
-            "telefone": "(99) 99999-9999",
+            "telefone": "+553436751022",
         }
 
         serializer = ClienteRegistrationSerializer(data=data)

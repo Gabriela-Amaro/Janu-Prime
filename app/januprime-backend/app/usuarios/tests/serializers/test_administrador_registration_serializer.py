@@ -31,15 +31,15 @@ class AdministradorRegistrationSerializerTest(TestCase):
             usuario=self.usuario,
             estabelecimento=self.estabelecimento,
             nome="Administrador Teste",
-            cpf="123.456.789-00",
+            cpf="608.319.686-80",
             super_user=True,
         )
 
     def test_administrador_registration_serializer_valid_data(self):
         data = {
             "email": "admin@example.com",
-            "password": "password",
-            "password2": "password",
+            "password": "jprime5672",
+            "password2": "jprime5672",
             "nome": "Administrador Teste",
             "cpf": "987.654.321-00",
             "estabelecimento": self.estabelecimento.id,
@@ -66,7 +66,7 @@ class AdministradorRegistrationSerializerTest(TestCase):
         data = {
             "email": "",
             "password": "password",
-            "cpf": "123.456.789-00",
+            "cpf": "608.319.686-80",
             "estabelecimento": 999999,
         }
 
