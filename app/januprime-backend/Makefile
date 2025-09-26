@@ -26,3 +26,6 @@ logs:
 
 test:
 	$(APP) python manage.py test
+
+build:
+	docker compose build app --no-cache
