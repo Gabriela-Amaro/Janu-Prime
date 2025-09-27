@@ -1,4 +1,5 @@
 import os
+import logging
 
 from pathlib import Path
 from datetime import timedelta
@@ -12,11 +13,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    raise ValueError("SECRET_KEY environment variable is required")
+
+ENV = os.getenv("DJANGO_ENV", "development")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = ENV == "development"
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = [host for host in os.getenv("ALLOWED_HOSTS", "").split(",") if host]
 
 
 # Application definition
@@ -130,6 +135,10 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # <- pasta dentro do projeto
+]
+STATIC_ROOT = BASE_DIR / "staticfiles"  # <- pasta onde o collectstatic vai jogar os arquivos
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -138,9 +147,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # --- REST FRAMEWORK, JWT & CORS CONFIGURATIONS ---
 CORS_ALLOWED_ORIGINS = [
-    # "https://example.com",  # Domínios permitidos
-    "http://localhost:8000",  # Para desenvolvimento
+    "http://localhost:3000",  # Frontend
+    "http://127.0.0.1:3000",
+    "http://localhost:8000",  # Django admin
+    "http://127.0.0.1:8000",
 ]
+
+# Configurações de segurança CORS
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = False  # Nunca True em produção
 
 # Configurações do Django Rest Framework
 REST_FRAMEWORK = {
@@ -152,9 +167,84 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     # === PARA DESENVOLVIMENTO (facilitar testes) ===
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
-    # "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5), # Padrão
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1) if ENV == "development" else timedelta(minutes=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
 }
+
+# --- CONFIGURAÇÕES DE SEGURANÇA BÁSICAS ---
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+# Configurações de logging para desenvolvimento
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+
+    "formatters": {
+        "verbose": {
+            "format": "[{asctime}] {levelname} {module} empresa=%(empresa_id)s-empresa=%(empresa_nome)s %(message)s",
+            "style": "{",
+            "datefmt": "%d-%m-%Y %H:%M:%S",
+        },
+    },
+
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+
+        # só será ativado em produção
+        "loki": {
+            "class": "logging.NullHandler", # placeholder, será substituído em produção
+            "formatter": "verbose",
+        },
+    },
+
+    "root": {
+        "handlers": ["console"], 
+        "level": "INFO",
+    },
+
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "meuapp": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+    },
+}
+
+# 🔹 Se estiver em produção, troca o handler "loki" para um real
+if ENV == "production":
+    try:
+        # baixar o handler do loki
+        from loki_django_logger.handler import AsyncGzipLokiHandler
+
+        LOGGING["handlers"]["loki"] = {
+            "class": "loki_django_logger.handler.AsyncGzipLokiHandler",
+            "loki_url": os.getenv("LOKI_URL", "http://localhost:3100"),
+            "labels": {
+                "application": "meuapp",
+                "environment": ENV,
+            },
+            "level": "INFO",
+            "formatter": "verbose",
+        }
+
+        # adiciona loki a todos os loggers
+        LOGGING["root"]["handlers"].append("loki")
+        LOGGING["loggers"]["django"]["handlers"].append("loki")
+        LOGGING["loggers"]["meuapp"]["handlers"].append("loki")
+
+    except ImportError:
+        # Se ainda não tem loki_django_logger instalado, ignora
+        logging.warning("Loki handler não configurado (pacote não instalado).")
