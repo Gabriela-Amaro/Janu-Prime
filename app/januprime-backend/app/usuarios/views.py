@@ -77,10 +77,13 @@ class ClienteDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated, IsClienteOwner]
 
     def perform_destroy(self, instance):
+        email = instance.usuario.email 
+
         instance.usuario.delete()
+        
         logger.info(
             "Cliente deletado: %s",
-            instance.email
+            email
         )
 
 
@@ -93,11 +96,15 @@ class AdministradorDetailView(generics.RetrieveUpdateDestroyAPIView):
     ]
 
     def perform_destroy(self, instance):
+        email= instance.usuario.email
+        estabelecimento_id = instance.estabelecimento.id
+
         instance.usuario.delete()
+        
         logger.info(
             "Administrador deletado: %s",
-            instance.email,
-            extra={'estabelecimento_id': instance.estabelecimento.id}
+            email,
+            extra={'estabelecimento_id': estabelecimento_id}
         )
 
 
