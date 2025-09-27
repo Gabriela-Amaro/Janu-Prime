@@ -8,10 +8,12 @@ from .views import (
 )
 
 urlpatterns = [
+    # Clientes
     path("clientes/cadastro/", ClienteCadastroView.as_view(), name="cliente-cadastro"),
     path(
         "clientes/<int:pk>/", ClienteDetailView.as_view(), name="cliente-detail"
     ),  # Read/Update/Delete
+    # Administradores
     path(
         "administradores/cadastro/",
         AdministradorCadastroView.as_view(),
@@ -22,6 +24,7 @@ urlpatterns = [
         AdministradorDetailView.as_view(),
         name="administrador-detail",
     ),  # Read/Update/Delete
+    # Usuario geral
     path(
         "usuarios/change-password/",
         ChangePasswordView.as_view(),

@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
-    'django_filters',
+    "django_filters",
     # My Apps
     "core",
     "usuarios",
@@ -139,7 +139,9 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",  # <- pasta dentro do projeto
 ]
-STATIC_ROOT = BASE_DIR / "staticfiles"  # <- pasta onde o collectstatic vai jogar os arquivos
+STATIC_ROOT = (
+    BASE_DIR / "staticfiles"
+)  # <- pasta onde o collectstatic vai jogar os arquivos
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -168,7 +170,9 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     # === PARA DESENVOLVIMENTO (facilitar testes) ===
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=1) if ENV == "development" else timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": (
+        timedelta(days=1) if ENV == "development" else timedelta(minutes=5)
+    ),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
@@ -177,13 +181,12 @@ SIMPLE_JWT = {
 # --- CONFIGURAÇÕES DE SEGURANÇA BÁSICAS ---
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = 'DENY'
+X_FRAME_OPTIONS = "DENY"
 
 # Configurações de logging para desenvolvimento
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-
     "formatters": {
         "verbose": {
             "format": "[{asctime}] {levelname} {module} empresa=%(empresa_id)s-empresa=%(empresa_nome)s %(message)s",
@@ -191,25 +194,21 @@ LOGGING = {
             "datefmt": "%d-%m-%Y %H:%M:%S",
         },
     },
-
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         },
-
         # só será ativado em produção
         "loki": {
-            "class": "logging.NullHandler", # placeholder, será substituído em produção
+            "class": "logging.NullHandler",  # placeholder, será substituído em produção
             "formatter": "verbose",
         },
     },
-
     "root": {
-        "handlers": ["console"], 
+        "handlers": ["console"],
         "level": "INFO",
     },
-
     "loggers": {
         "django": {
             "handlers": ["console"],
