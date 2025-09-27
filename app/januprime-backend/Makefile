@@ -9,9 +9,6 @@ migrate:
 superuser:
 	$(APP) python manage.py createsuperuser
 
-exec:
-	$(APP) 
-
 root: 
 	docker compose exec -u 0 app
 
