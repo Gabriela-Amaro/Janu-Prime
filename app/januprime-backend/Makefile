@@ -26,3 +26,6 @@ test:
 
 build:
 	docker compose build app --no-cache
+
+flushtokens:
+	$(APP) python manage.py flushexpiredtokens
