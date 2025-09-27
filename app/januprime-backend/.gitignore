@@ -207,3 +207,39 @@ marimo/_lsp/
 __marimo__/
 
 to-do.txt
+
+# Docker 
+*.pid 
+*.seed 
+*.cover 
+*.log 
+*.tmp 
+*.bak
+
+# Media & Static files
+staticfiles/
+media/
+
+# Python
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtualenv
+venv/
+.env/
+.venv/
+
+# Django
+db.sqlite3
+*.log
+
+# Arquivos de migração temporários
+*/migrations/__pycache__/
+*/migrations/*.pyc
+*/migrations/*.pyo
