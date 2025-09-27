@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     "django_filters",
     # My Apps
     "core",
-    "usuarios",
+    "usuarios.apps.UsuariosConfig",
     "estabelecimentos",
     "produtos",
     "transacoes",
@@ -187,9 +187,14 @@ X_FRAME_OPTIONS = "DENY"
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+    "filters": {
+        "estabelecimento_context": {
+            "()": "core.logging_filters.EstabelecimentoContextFilter",
+        },
+    },
     "formatters": {
         "verbose": {
-            "format": "[{asctime}] {levelname} {module} estabelecimento=%(estabelecimento_id)s %(message)s",
+            "format": "[{asctime}] {levelname} | {module} | estabelecimento={estabelecimento_id} | {message}",
             "style": "{",
             "datefmt": "%d-%m-%Y %H:%M:%S",
         },
@@ -198,11 +203,13 @@ LOGGING = {
         "console": {
             "class": "logging.StreamHandler",
             "formatter": "verbose",
+            "filters": ["estabelecimento_context"],
         },
         # só será ativado em produção
         "loki": {
             "class": "logging.NullHandler",  # placeholder, será substituído em produção
             "formatter": "verbose",
+            "filters": ["estabelecimento_context"],
         },
     },
     "root": {
