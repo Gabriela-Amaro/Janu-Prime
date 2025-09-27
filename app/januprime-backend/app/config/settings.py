@@ -189,7 +189,7 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": {
         "verbose": {
-            "format": "[{asctime}] {levelname} {module} empresa=%(empresa_id)s-empresa=%(empresa_nome)s %(message)s",
+            "format": "[{asctime}] {levelname} {module} estabelecimento=%(estabelecimento_id)s %(message)s",
             "style": "{",
             "datefmt": "%d-%m-%Y %H:%M:%S",
         },
@@ -215,7 +215,7 @@ LOGGING = {
             "level": "INFO",
             "propagate": False,
         },
-        "meuapp": {
+        "app": {
             "handlers": ["console"],
             "level": "DEBUG",
             "propagate": False,

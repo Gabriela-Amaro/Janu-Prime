@@ -14,6 +14,9 @@ from .permissions import (
     IsAdministradorOwnerOrSameEstablishmentSuperUser,
 )
 
+import logging
+
+logger = logging.getLogger("app")
 
 class ClienteCadastroView(generics.CreateAPIView):
     queryset = Cliente.objects.all()
@@ -30,6 +33,11 @@ class ClienteCadastroView(generics.CreateAPIView):
         )
 
         headers = self.get_success_headers(display_serializer.data)
+
+        logger.info(
+            "Novo cliente cadastrado: %s",
+            display_serializer.data.get("email")
+        )
 
         return Response(
             display_serializer.data, status=status.HTTP_201_CREATED, headers=headers
@@ -52,6 +60,12 @@ class AdministradorCadastroView(generics.CreateAPIView):
 
         headers = self.get_success_headers(display_serializer.data)
 
+        logger.info(
+            "Novo administrador cadastrado: %s",
+            display_serializer.data.get("email"),
+            extra={'estabelecimento_id': display_serializer.data.get("estabelecimento")}
+        )
+
         return Response(
             display_serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
@@ -64,6 +78,10 @@ class ClienteDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def perform_destroy(self, instance):
         instance.usuario.delete()
+        logger.info(
+            "Cliente deletado: %s",
+            instance.email
+        )
 
 
 class AdministradorDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -76,6 +94,11 @@ class AdministradorDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def perform_destroy(self, instance):
         instance.usuario.delete()
+        logger.info(
+            "Administrador deletado: %s",
+            instance.email,
+            extra={'estabelecimento_id': instance.estabelecimento.id}
+        )
 
 
 class ChangePasswordView(generics.UpdateAPIView):
@@ -91,8 +114,16 @@ class ChangePasswordView(generics.UpdateAPIView):
 
         if serializer.is_valid(raise_exception=True):
             serializer.save()
+            logger.info(
+                "Senha alterada para o usuário: %s",
+                self.object.email
+            )
             return Response(
                 {"detail": "Senha alterada com sucesso."}, status=status.HTTP_200_OK
             )
 
+        logger.error(
+            "Erro ao alterar senha para o usuário: %s",
+            self.object.email
+        )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
