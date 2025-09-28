@@ -24,5 +24,6 @@ class Estabelecimento(models.Model):
     def __str__(self):
         return self.nome
 
-
-# Fazer validations para CNPJ, telefone e horário de funcionamento
+    class Meta:
+        verbose_name = "Estabelecimento"
+        verbose_name_plural = "Estabelecimentos"
