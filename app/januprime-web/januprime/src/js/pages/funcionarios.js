@@ -1,6 +1,7 @@
 import { mockData } from '../config/mockData.js';
 import { debounce } from '../utils/debounce.js';
 import { showNotification } from '../utils/notifications.js';
+import { getMainFooter } from '../components/main-footer.js';
 
 export function getFuncionariosContent() {
   return `
@@ -120,6 +121,8 @@ export function getFuncionariosContent() {
         </div>
       </div>
     </div>
+    
+    ${getMainFooter()}
   `;
 }
 

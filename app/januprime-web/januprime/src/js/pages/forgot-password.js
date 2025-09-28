@@ -1,11 +1,13 @@
+// Importar componentes de autenticação
+import { getAuthFooter } from '../components/auth-navbar.js';
+
 // Página de Esqueci Minha Senha
 export function getForgotPasswordContent() {
   return `
-    <div class="container-fluid">
-      <div class="row justify-content-center align-items-center min-vh-100">
-        <div class="col-md-6 col-lg-4">
-          <div class="card border-0 shadow-lg">
-            <div class="card-body p-5">
+    <div class="auth-page">
+      <div class="auth-main-content">
+      <div class="auth-card auth-fade-in">
+        <div class="card-body">
               <div class="text-center mb-4">
                 <img src="/assets/images/logo.svg" alt="Janu Prime" width="60" height="60" class="mb-3">
                 <h2 class="text-gradient mb-2">Esqueceu sua senha?</h2>
@@ -41,10 +43,11 @@ export function getForgotPasswordContent() {
                   Voltar ao Login
                 </button>
               </div>
-            </div>
-          </div>
         </div>
       </div>
+    </div>
+    
+    ${getAuthFooter()}
     </div>
   `;
 }

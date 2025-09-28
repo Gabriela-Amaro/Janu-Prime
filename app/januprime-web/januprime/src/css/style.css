@@ -1609,3 +1609,709 @@ label {
 [data-bs-theme="dark"] ::-webkit-scrollbar-thumb:hover {
   background: #adb5bd;
 }
+
+/* Estilos específicos para páginas de autenticação */
+.auth-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden; /* Previne scroll horizontal */
+}
+
+/* Garantir que não haja overflow horizontal */
+body {
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+/* Estilos da navbar removidos - não é mais usada */
+
+.auth-footer {
+  background: linear-gradient(135deg, var(--dark-color) 0%, var(--dark-gray) 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.auth-footer .container-fluid {
+  max-width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.auth-footer a {
+  text-decoration: none;
+  transition: all var(--transition-normal);
+  color: var(--text-muted);
+}
+
+.auth-footer a:hover {
+  color: var(--primary-light) !important;
+  transform: translateY(-1px);
+}
+
+/* Container principal para páginas de autenticação */
+.auth-main-content {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1rem 8rem 1rem; /* Mais espaçamento no topo e muito mais no rodapé */
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* Previne overflow horizontal */
+}
+
+/* Estilos para cards de autenticação */
+.auth-card {
+  background: rgba(42, 42, 42, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-xl);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.auth-card .card-body {
+  padding: 2.5rem;
+}
+
+/* Card específico para cadastro (mais largo) */
+.auth-card.register-card {
+  max-width: 700px;
+}
+
+/* Responsividade para páginas de auth */
+@media (max-width: 768px) {
+  .auth-main-content {
+    padding: 4rem 0.5rem 6rem 0.5rem;
+    min-height: 70vh;
+  }
+  
+  .auth-card {
+    max-width: 100%;
+    margin: 0;
+  }
+  
+  .auth-card .card-body {
+    padding: 1.5rem;
+  }
+  
+  .auth-footer .row {
+    text-align: center;
+  }
+  
+  .auth-footer .col-md-6:last-child {
+    margin-top: 1rem;
+  }
+  
+  .auth-footer .container-fluid {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .auth-main-content {
+    padding: 3rem 0.5rem 5rem 0.5rem;
+    min-height: 60vh;
+  }
+  
+  .auth-card .card-body {
+    padding: 1rem;
+  }
+  
+  .auth-footer .container-fluid {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* Animações específicas para auth */
+.auth-fade-in {
+  animation: authFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes authFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos para botões de navegação rápida */
+.auth-quick-nav {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.auth-quick-nav .btn {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-sm);
+}
+
+/* Estilos removidos - indicadores de página ativa não são mais necessários */
+
+/* ========================================
+   RODAPÉ PRINCIPAL - MAIN FOOTER
+   ======================================== */
+
+.main-footer {
+  background: #2d3748;
+  border-top: 1px solid rgba(100, 108, 139, 0.2);
+  margin-top: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--gradient-primary);
+  opacity: 0.3;
+}
+
+/* Brand do rodapé */
+.footer-brand h5 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.footer-brand p {
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Links sociais */
+.social-links {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 50%;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: all var(--transition-normal);
+  font-size: 1.1rem;
+}
+
+.social-link:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* Títulos das seções */
+.footer-title {
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.footer-title::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: var(--gradient-primary);
+  border-radius: 1px;
+}
+
+/* Lista de links */
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+  display: inline-block;
+  position: relative;
+}
+
+.footer-links a:hover {
+  color: var(--primary-color);
+  transform: translateX(4px);
+}
+
+.footer-links a::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 1px;
+  background: var(--primary-color);
+  transition: width var(--transition-fast);
+}
+
+.footer-links a:hover::before {
+  width: 8px;
+}
+
+/* Informações de contato */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.contact-item i {
+  font-size: 1rem;
+  width: 16px;
+  text-align: center;
+}
+
+/* Divisor do rodapé */
+.footer-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(100, 108, 139, 0.3) 50%, transparent 100%);
+  margin: 0;
+}
+
+/* Links legais */
+.footer-legal-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color var(--transition-fast);
+}
+
+.footer-legal-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Responsividade do rodapé */
+@media (max-width: 992px) {
+  .main-footer .row {
+    text-align: center;
+  }
+  
+  .social-links {
+    justify-content: center;
+  }
+  
+  .footer-legal-links {
+    text-align: center !important;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-footer {
+    padding: 2rem 0;
+  }
+  
+  .main-footer .row:first-child {
+    padding: 2rem 0;
+  }
+  
+  .footer-brand {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .footer-title {
+    margin-top: 1.5rem;
+  }
+  
+  .footer-title:first-child {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-footer .container-fluid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .social-links {
+    gap: 0.5rem;
+  }
+  
+  .social-link {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+  
+  .footer-legal-links a {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Animação de entrada do rodapé */
+.main-footer {
+  animation: footerSlideUp 0.6s ease-out;
+}
+
+@keyframes footerSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efeito de hover nos cards do rodapé */
+.footer-brand,
+.footer-links,
+.contact-info {
+  transition: transform var(--transition-normal);
+}
+
+.footer-brand:hover,
+.footer-links:hover,
+.contact-info:hover {
+  transform: translateY(-2px);
+}
+
+/* Melhorias de acessibilidade */
+.social-link:focus,
+.footer-links a:focus,
+.footer-legal-links a:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Estilo para links desabilitados */
+.footer-links a.text-muted {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.footer-links a.text-muted:hover {
+  transform: none;
+  color: var(--text-muted);
+}
+
+.footer-links a.text-muted::before {
+  display: none;
+}
+
+/* ========================================
+   RODAPÉ DE AUTENTICAÇÃO - AUTH FOOTER
+   ======================================== */
+
+.auth-footer {
+  background: #2d3748;
+  border-top: 1px solid rgba(100, 108, 139, 0.2);
+  margin-top: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--gradient-primary);
+  opacity: 0.3;
+}
+
+/* Brand do rodapé de auth */
+.auth-footer .footer-brand h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.auth-footer .footer-brand p {
+  line-height: 1.5;
+  font-size: 0.85rem;
+}
+
+/* Links sociais do rodapé de auth */
+.auth-footer .social-links {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.auth-footer .social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 50%;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: all var(--transition-normal);
+  font-size: 0.9rem;
+}
+
+.auth-footer .social-link:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* Títulos das seções do rodapé de auth */
+.auth-footer .footer-title {
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  position: relative;
+}
+
+.auth-footer .footer-title::after {
+  content: '';
+  position: absolute;
+  bottom: -0.25rem;
+  left: 0;
+  width: 20px;
+  height: 2px;
+  background: var(--gradient-primary);
+  border-radius: 1px;
+}
+
+/* Lista de links do rodapé de auth */
+.auth-footer .footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.auth-footer .footer-links li {
+  margin-bottom: 0.4rem;
+}
+
+.auth-footer .footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: all var(--transition-fast);
+  display: inline-block;
+  position: relative;
+}
+
+.auth-footer .footer-links a:hover {
+  color: var(--primary-color);
+  transform: translateX(3px);
+}
+
+.auth-footer .footer-links a::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 1px;
+  background: var(--primary-color);
+  transition: width var(--transition-fast);
+}
+
+.auth-footer .footer-links a:hover::before {
+  width: 6px;
+}
+
+/* Informações de contato do rodapé de auth */
+.auth-footer .contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.auth-footer .contact-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.auth-footer .contact-item i {
+  font-size: 0.9rem;
+  width: 14px;
+  text-align: center;
+}
+
+/* Divisor do rodapé de auth */
+.auth-footer .footer-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(100, 108, 139, 0.3) 50%, transparent 100%);
+  margin: 0;
+}
+
+/* Links legais do rodapé de auth */
+.auth-footer .footer-legal-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: color var(--transition-fast);
+}
+
+.auth-footer .footer-legal-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Responsividade do rodapé de auth */
+@media (max-width: 992px) {
+  .auth-footer .row {
+    text-align: center;
+  }
+  
+  .auth-footer .social-links {
+    justify-content: center;
+  }
+  
+  .auth-footer .footer-legal-links {
+    text-align: center !important;
+    margin-top: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-footer {
+    padding: 1.5rem 0;
+  }
+  
+  .auth-footer .row:first-child {
+    padding: 1.5rem 0;
+  }
+  
+  .auth-footer .footer-brand {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .auth-footer .footer-title {
+    margin-top: 1rem;
+  }
+  
+  .auth-footer .footer-title:first-child {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .auth-footer .container-fluid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .auth-footer .social-links {
+    gap: 0.4rem;
+  }
+  
+  .auth-footer .social-link {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+  
+  .auth-footer .footer-legal-links a {
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+}
+
+/* Animação de entrada do rodapé de auth */
+.auth-footer {
+  animation: footerSlideUp 0.6s ease-out;
+}
+
+/* Efeito de hover nos cards do rodapé de auth */
+.auth-footer .footer-brand,
+.auth-footer .footer-links,
+.auth-footer .contact-info {
+  transition: transform var(--transition-normal);
+}
+
+.auth-footer .footer-brand:hover,
+.auth-footer .footer-links:hover,
+.auth-footer .contact-info:hover {
+  transform: translateY(-1px);
+}
+
+/* Melhorias de acessibilidade do rodapé de auth */
+.auth-footer .social-link:focus,
+.auth-footer .footer-links a:focus,
+.auth-footer .footer-legal-links a:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Estilo para links desabilitados do rodapé de auth */
+.auth-footer .footer-links a.text-muted {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.auth-footer .footer-links a.text-muted:hover {
+  transform: none;
+  color: var(--text-muted);
+}
+
+.auth-footer .footer-links a.text-muted::before {
+  display: none;
+}

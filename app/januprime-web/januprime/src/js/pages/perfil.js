@@ -1,4 +1,5 @@
 import { APP_CONFIG } from "../config/app.js";
+import { getMainFooter } from "../components/main-footer.js";
 
 export function getPerfilContent() {
   return `
@@ -149,6 +150,8 @@ export function getPerfilContent() {
         </div>
       </div>
     </div>
+    
+    ${getMainFooter()}
   `;
 }
 

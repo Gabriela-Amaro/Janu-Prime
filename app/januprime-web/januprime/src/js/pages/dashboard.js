@@ -2,6 +2,7 @@ import { APP_CONFIG } from "../config/app.js";
 import { mockData } from "../config/mockData.js";
 import { debounce } from "../utils/debounce.js";
 import { showNotification } from "../utils/notifications.js";
+import { getMainFooter } from "../components/main-footer.js";
 
 // Estado global da aplicação
 let currentPage = "dashboard";
@@ -418,6 +419,8 @@ export function getDashboardContent() {
         </div>
       </div>
     </div>
+    
+    ${getMainFooter()}
   `;
 }
 

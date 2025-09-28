@@ -1,6 +1,7 @@
 import { mockData } from '../config/mockData.js';
 import { debounce } from '../utils/debounce.js';
 import { showNotification } from '../utils/notifications.js';
+import { getMainFooter } from '../components/main-footer.js';
 
 export function getCatalogoContent() {
   return `
@@ -96,6 +97,8 @@ export function getCatalogoContent() {
         `).join('')}
       </div>
     </div>
+    
+    ${getMainFooter()}
   `;
 }
 
