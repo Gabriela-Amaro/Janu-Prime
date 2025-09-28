@@ -4,6 +4,8 @@ import "../css/style.css";
 import * as bootstrap from "bootstrap";
 import { showPage } from './utils/navigation.js';
 import { showNotification } from './utils/notifications.js';
+import { authService, requireAuth, logout } from './services/auth.js';
+import { updateUIBasedOnAuth, updatePermissionsUI, onLoginSuccess, onLogoutSuccess } from './utils/auth-ui.js';
 
 // Importar funções específicas do dashboard
 import { 
@@ -30,8 +32,18 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initializeApp() {
-  // Carrega a página inicial
-  showPage('dashboard');
+  // Atualizar interface baseada no estado de autenticação
+  updateUIBasedOnAuth();
+  
+  // Verificar se o usuário está autenticado
+  if (authService.isAuthenticated) {
+    // Se estiver autenticado, carregar dashboard
+    showPage('dashboard');
+    updatePermissionsUI();
+  } else {
+    // Se não estiver autenticado, carregar página de login
+    showPage('login');
+  }
   
   // Inicializa tooltips do Bootstrap
   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -159,11 +171,7 @@ function filtrarAuditoria() {
   showNotification('Filtros aplicados!', 'info');
 }
 
-function logout() {
-  console.log('Fazendo logout...');
-  showNotification('Sessão encerrada com sucesso! Você foi desconectado do sistema.', 'success');
-  // Implementar lógica de logout real aqui
-}
+// Função de logout já está importada do auth.js
 
 // Exportar funções para uso global (compatibilidade com HTML)
 window.showPage = showPage;
@@ -232,3 +240,7 @@ window.limparFiltrosMetricas = limparFiltrosMetricas;
 
 // Função de logout
 window.logout = logout;
+
+// Exportar serviços de autenticação
+window.authService = authService;
+window.requireAuth = requireAuth;
