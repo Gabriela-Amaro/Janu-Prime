@@ -1,0 +1,6 @@
+[submodule "app/backend"]
+	path = app/backend
+	url = git@github.com:Gabriela-Amaro/Janu-Prime-Backend.git
+[submodule "app/frontend-web"]
+	path = app/frontend-web
+	url = git@github.com:Gabriela-Amaro/Janu-Prime-Frontend-web.git
